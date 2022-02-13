@@ -1,3 +1,10 @@
+@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@500&family=Indie+Flower&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -10,4 +17,77 @@ body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+.header {
+  background-color: black;
+  color: white;
+  height: 60px;
+  font-family: 'Indie Flower', cursive;
+}
+
+.header h2 {
+  padding: 8px;
+  font-size: 30px;
+}
+
+.tile {
+  width: 100px;
+  height: 100px;
+  border-spacing: 0;
+  /* border: 0.5px rgb(255, 255, 255) solid; */
+}
+
+.tile img {
+  width: 100%;
+  height: 100%;
+}
+
+.refresh {
+  width: 305px;
+  margin: auto;
+  display: flex;
+  align-items: flex-end;
+  flex-direction: column;
+}
+
+.puzzle {
+  margin-top: 60px;
+}
+
+.refresh .icon:hover {
+  cursor: pointer;
+}
+
+.refresh .icon {
+  height: 30px;
+  width: 30px;
+  border-radius: 100% 100% 0 0;
+  background-color: black;
+}
+
+.refresh .icon svg {
+  height: 80%;
+  width: 80%;
+  color: white;
+  margin: 5px 3.5px;
+}
+
+.board {
+  border: 2px solid black;
+  max-width: 304px; /*301*/
+  margin: auto;
+  display: flex;
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
+
+.result {
+  width: 308px;
+  height: 50px;
+  margin: auto;
+  text-align: center;
+  font-size: larger;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  margin-top: 35px;
 }
