@@ -1,12 +1,13 @@
 import React,{useState,useEffect} from 'react';
 import Tile from './Tile';
 
-export default function Board({tileArray, lastTile,showTime,tileStyle,boardStyle}) {
+export default function Board({tileArray,showTime,tileStyle,boardStyle}) {
 
     const [tiles,setTiles] = useState([]);
     const [blank,setBlank] = useState(8);
     const [solved,setSolved] = useState(false);
     const [startTime,setStartTime] = useState(null);
+    const [lastTileImg,setLastTileImg] = useState({});
 
     useEffect(() => {
         if(tileArray.length > 0){
@@ -24,30 +25,26 @@ export default function Board({tileArray, lastTile,showTime,tileStyle,boardStyle
                 tile.currentIndex = ind;
                 return tile;
             });
+
+            let missingTile = Math.floor(Math.random()*tileCompArray.length);
+            let missingTileImg = tileCompArray[missingTile].imgg;
+            tileCompArray[missingTile].imgg = null;
     
             if(!isSolvable(tileCompArray)){
-                // console.log("The puzzle cannot be solved");
-                // let tempT = tileCompArray[0];
-                // tileCompArray[0] = tileCompArray[3];
-                // tileCompArray[3] = tempT;
-                // console.log("Tile array length : "+tiles.length);
-                tileCompArray = swapTiles(tileCompArray,0,3);
-                // console.log(isSolvable(tileCompArray) ? "Can be now" : "Still nope");
+                console.log("The puzzle cannot be solved");
+                console.log("Tile array length : "+tiles.length);
+                tileCompArray = makeSolvable(tileCompArray);
+                console.log(isSolvable(tileCompArray) ? "Can be now" : "Still nope");
             }
             // else{
             //     console.log("The puzzle can be solved.")
             // }
     
-            tileCompArray.push({
-                imgg: null,
-                currentIndex : 8,
-                originalIndex : 8
-            });
-    
             setTiles(tileCompArray);
             setSolved(false);
             setStartTime(null);
-            setBlank(8);
+            setBlank(missingTile);
+            setLastTileImg(missingTileImg);
         }
     },[tileArray]);
 
@@ -63,7 +60,7 @@ export default function Board({tileArray, lastTile,showTime,tileStyle,boardStyle
         //     console.log("Board is NOT VALID");
 
         if(!solved && tiles.length>0 && isBoardValid()){
-            tiles[blank].imgg = lastTile;
+            tiles[blank].imgg = lastTileImg;
             setTiles([...tiles]);
             setSolved(true);
 
@@ -76,6 +73,9 @@ export default function Board({tileArray, lastTile,showTime,tileStyle,boardStyle
             }
 
             showTime(minutes,elapsedTime);
+        }
+        else{
+            console.log("Can be solved!");
         }
 
     },[tiles,blank]);
@@ -99,15 +99,24 @@ export default function Board({tileArray, lastTile,showTime,tileStyle,boardStyle
     const countInversions = (arr) => {
         let inv = 0;
 
-        for(let i=0;i<arr.length;i++){
+        for(let i=0;i<arr.length - 1;i++){
             for(let j=i+1;j<arr.length;j++){
-                if(arr[i].originalIndex > arr[j].originalIndex){
+                if(arr[i].imgg && arr[j].imgg && arr[i].originalIndex > arr[j].originalIndex){
                     inv++;
                 }
             }
         }
-        // console.log("INV count "+inv);
+        
+        console.log("INV count "+inv);
         return inv;
+    }
+
+    const makeSolvable = (tileCompArray) => {
+        if(!tileCompArray[0].imgg || !tileCompArray[1].imgg){
+            console.log("Oh no, blank is at the beginning")
+            return swapTiles(tileCompArray,7,8);
+        }
+        return swapTiles(tileCompArray,0,1);
     }
 
     const tileHandler = (ind) => {
@@ -128,23 +137,23 @@ export default function Board({tileArray, lastTile,showTime,tileStyle,boardStyle
         else if(ind<6 && ind+3 === blank)
             dir = 2;
 
-        // let msg = "";
+        let msg = "";
 
-        // switch(dir){
-        //     case 0 : msg = "Move up";
-        //     break;
-        //     case 1 : msg = "Move right";
-        //     break;
-        //     case 2 : msg = "Move down";
-        //     break;
-        //     case 3 : msg = "Move left";
-        //     break;
-        //     default : msg = "No neighboring blank cell"
-        // }
+        switch(dir){
+            case 0 : msg = "Move up";
+            break;
+            case 1 : msg = "Move right";
+            break;
+            case 2 : msg = "Move down";
+            break;
+            case 3 : msg = "Move left";
+            break;
+            default : msg = "No neighboring blank cell"
+        }
 
-        // console.log(msg);
-        // console.log("Blank is at "+blank);
-        // console.log("--------------");
+        console.log(msg);
+        console.log("Blank is at "+blank);
+        console.log("--------------");
 
         //swapping
         if(!solved && dir!==-1){

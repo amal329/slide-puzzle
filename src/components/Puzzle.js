@@ -11,7 +11,7 @@ export default class Puzzle extends React.Component{
         super(props);
         this.showTime = this.showTime.bind(this);
         this.refresh = this.refresh.bind(this);
-        this.state = {imagePieces : [], lastTile : {}, canShow : false, minutes : 0, seconds:  0};
+        this.state = {imagePieces : [], canShow : false, minutes : 0, seconds:  0};
     }
 
     showTime(minutes,seconds){
@@ -31,7 +31,7 @@ export default class Puzzle extends React.Component{
         return (
             <div className="puzzle">
                 <Refresh clickHandler={this.refresh}/>
-                <Board tileArray={this.state.imagePieces} lastTile={this.state.lastTile} showTime={this.showTime} tileStyle = {{border : "0.5px rgb(255, 255, 255) solid"}} boardStyle={{maxWidth : "301px"}}/>
+                <Board tileArray={this.state.imagePieces} showTime={this.showTime} tileStyle = {{border : "0.5px rgb(255, 255, 255) solid"}} boardStyle={{maxWidth : "301px"}}/>
                 <Result show={this.state.canShow} minutes={this.state.minutes} seconds={this.state.seconds}/>
             </div>
         );
@@ -40,7 +40,6 @@ export default class Puzzle extends React.Component{
     refresh(){
         this.setState({
             imagePieces : [...this.state.imagePieces],
-            lastTile : this.state.lastTile,
             canShow : false,
             minutes :0,
             seconds: 0
@@ -63,8 +62,7 @@ export default class Puzzle extends React.Component{
                 pieces.push(canvas.toDataURL());
             }
         }
-
-        this.setState({lastTile : pieces.pop()});
+        
         this.setState({imagePieces : pieces});
     }
 }
