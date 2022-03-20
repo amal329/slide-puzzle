@@ -31,10 +31,10 @@ export default function Board({tileArray,showTime,tileStyle,boardStyle}) {
             tileCompArray[missingTile].imgg = null;
     
             if(!isSolvable(tileCompArray)){
-                console.log("The puzzle cannot be solved");
-                console.log("Tile array length : "+tiles.length);
+                // console.log("The puzzle cannot be solved");
+                // console.log("Tile array length : "+tiles.length);
                 tileCompArray = makeSolvable(tileCompArray);
-                console.log(isSolvable(tileCompArray) ? "Can be now" : "Still nope");
+                // console.log(isSolvable(tileCompArray) ? "Can be now" : "Still nope");
             }
             // else{
             //     console.log("The puzzle can be solved.")
@@ -49,16 +49,6 @@ export default function Board({tileArray,showTime,tileStyle,boardStyle}) {
     },[tileArray]);
 
     useEffect(() => {
-        // console.log("---After swapping---");
-        // console.log("Tile array");
-        // console.log(tiles);
-        // console.log("Value of blank = "+blank);
-
-        // if(isBoardValid())
-        //     console.log("Board is VALID");
-        // else
-        //     console.log("Board is NOT VALID");
-
         if(!solved && tiles.length>0 && isBoardValid()){
             tiles[blank].imgg = lastTileImg;
             setTiles([...tiles]);
@@ -74,9 +64,9 @@ export default function Board({tileArray,showTime,tileStyle,boardStyle}) {
 
             showTime(minutes,elapsedTime);
         }
-        else{
-            console.log("Can be solved!");
-        }
+        // else{
+        //     console.log("Can be solved!");
+        // }
 
     },[tiles,blank]);
 
@@ -107,20 +97,18 @@ export default function Board({tileArray,showTime,tileStyle,boardStyle}) {
             }
         }
         
-        console.log("INV count "+inv);
+        // console.log("INV count "+inv);
         return inv;
     }
 
     const makeSolvable = (tileCompArray) => {
         if(!tileCompArray[0].imgg || !tileCompArray[1].imgg){
-            console.log("Oh no, blank is at the beginning")
             return swapTiles(tileCompArray,7,8);
         }
         return swapTiles(tileCompArray,0,1);
     }
 
     const tileHandler = (ind) => {
-        // console.log("A tile with index "+ind+" was clicked");
 
         if(!startTime){
             setStartTime(new Date());
@@ -151,9 +139,9 @@ export default function Board({tileArray,showTime,tileStyle,boardStyle}) {
             default : msg = "No neighboring blank cell"
         }
 
-        console.log(msg);
-        console.log("Blank is at "+blank);
-        console.log("--------------");
+        // console.log(msg);
+        // console.log("Blank is at "+blank);
+        // console.log("--------------");
 
         //swapping
         if(!solved && dir!==-1){
